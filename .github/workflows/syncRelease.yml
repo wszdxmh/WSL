@@ -1,11 +1,9 @@
 name: Sync Releases from Microsoft WSL
 
 on:
-  # 允许你手动触发这个工作流
-  workflow_dispatch:
-  # 每12小时自动运行一次，以获取新的 Release
+  workflow_dispatch:                           # 手动触发
   schedule:
-    - cron: "*/12 * * *"
+    - cron: "0 */12 * * *"                    # 每 12 小时自动运行（UTC 0:00 和 12:00）
 
 jobs:
   sync-releases:
@@ -14,9 +12,6 @@ jobs:
       - name: Clone Releases
         uses: andrewthetechie/gha-clone-releases@v1
         with:
-          # 使用 GitHub 自动生成的令牌进行身份验证
           token: ${{ secrets.GITHUB_TOKEN }}
-          # 指定源仓库为微软官方的 WSL 仓库
           src_repo: microsoft/WSL
-          # 复制 Release 的附件（如 .msi 安装包）
           copy_assets: true
